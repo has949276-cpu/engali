@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنصة الهندسية المتكاملة | حساب الكميات الاحترافي</title>
+    <style>
+        :root {
+            --primary: #0f172a; 
+            --accent: #fbbf24;  
+            --success: #22c55e;
+            --bg: #f1f5f9;
+            --white: #ffffff;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background-color: var(--bg); margin: 0; padding: 0; color: var(--primary);
+            line-height: 1.6;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white; padding: 60px 20px; text-align: center;
+            border-bottom: 8px solid var(--accent);
+        }
+
+        .container { max-width: 900px; margin: auto; padding: 20px; }
+
+        .card { 
+            background: var(--white); padding: 40px; border-radius: 20px; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            margin-bottom: 30px; position: relative; top: -50px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .ad-banner {
+            background: #cbd5e1; border: 2px dashed #94a3b8;
+            text-align: center; padding: 20px; margin: 20px 0;
+            border-radius: 12px; color: #475569; font-weight: bold;
+        }
+
+        .grid-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 10px; font-weight: 600; color: #334155; }
+        
+        input, select { 
+            width: 100%; padding: 14px; border: 2px solid #cbd5e1; 
+            border-radius: 10px; box-sizing: border-box; font-size: 1rem;
+            transition: all 0.3s ease; outline: none;
+        }
+
+        input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2); }
+
+        .btn-main {
+            width: 100%; padding: 20px; background: var(--primary); color: var(--accent);
+            border: none; border-radius: 12px; font-size: 1.3rem; font-weight: 800;
+            cursor: pointer; margin-top: 25px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.4);
+        }
+        .btn-main:hover { transform: translateY(-3px); background: #000; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+
+        .results {
+            display: none; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;
+            margin-top: 40px; animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .res-box { 
+            background: #fff; padding: 20px; border-radius: 15px; text-align: center; 
+            border: 2px solid #f1f5f9; transition: 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .res-box:hover { border-color: var(--accent); transform: scale(1.05); }
+        .res-box img { width: 50px; height: 50px; margin-bottom: 10px; }
+        .res-box small { display: block; color: #64748b; font-size: 0.85rem; font-weight: bold; }
+        .res-box b { font-size: 1.4rem; color: #1e293b; display: block; margin-top: 5px; }
+        .res-box span { font-size: 0.8rem; color: #ef4444; }
+
+        .footer-info {
+            background: #1e293b; color: white; padding: 40px; border-radius: 20px; text-align: center;
+            margin-top: 20px;
+        }
+        .gmail-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            background: #ea4335; color: white; padding: 18px 35px; text-decoration: none; 
+            border-radius: 50px; font-weight: bold; margin-top: 20px; transition: 0.3s;
+        }
+        .gmail-btn:hover { background: #ff0000; transform: scale(1.05); }
+
+        footer { text-align: center; padding: 40px; color: #64748b; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>🏗️ حاسبة المواد الإنشائية الذكية</h1>
+    <p>تقدير هندسي دقيق للكميات وفق الكود الدولي (خرسانة - حديد - تشطيبات)</p>
+</div>
+
+<div class="container">
+    
+    <div class="ad-banner">مساحة إعلانية موصى بها - Google Ads</div>
+
+    <div class="card">
+        <div class="grid-inputs">
+            <div class="input-group">
+                <label>📏 مساحة السقف (متر مربع)</label>
+                <input type="number" id="area" placeholder="مثال: 150">
+            </div>
+            <div class="input-group">
+                <label>📐 سمك الصبة (سم)</label>
+                <input type="number" id="thick" placeholder="مثال: 20">
+            </div>
+            <div class="input-group">
+                <label>🏗️ نوع النظام الإنشائي</label>
+                <select id="s_type">
+                    <option value="100">سقف عادي (Solid Slab)</option>
+                    <option value="140">سقف فلات (Flat Slab)</option>
+                    <option value="160">هوردي (Hollow Block)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-main" onclick="calc()">📦 احسب الكميات والتكلفة</button>
+
+        <div id="res" class="results">
+            <div class="res-box">
+                [attachment_0](attachment)
+                <small>حجم الخرسانة</small>
+                <b id="v">0</b> <span>متر مكعب</span>
+            </div>
+            <div class="res-box">
+                
+                <small>وزن الحديد</small>
+                <b id="s">0</b> <span>طن</span>
+            </div>
+            <div class="res-box">
+                [attachment_1](attachment)
+                <small>الأسمنت</small>
+                <b id="c">0</b> <span>طن</span>
+            </div>
+            <div class="res-box">
+                [attachment_2](attachment)
+                <small>الرمل المطلوب</small>
+                <b id="ra">0</b> <span>متر مكعب</span>
+            </div>
+            <div class="res-box">
+                
+                <small>السن / الزلط</small>
+                <b id="z">0</b> <span>متر مكعب</span>
+            </div>
+            <div class="res-box">
+                [attachment_3](attachment)
+                <small>الطوب التقريبي</small>
+                <b id="b">0</b> <span>طوبة</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="ad-banner">مساحة إعلانية ثانية - متجاوبة</div>
+
+    <div class="footer-info">
+        <h3>💡 لماذا حاسبتنا هي الأفضل؟</h3>
+        <p>تعتمد خوارزميتنا على معادلات هندسية دقيقة تأخذ في الاعتبار "نسبة الفاقد" (Waste Factor) بنسبة 5% لضمان عدم توقف العمل في الموقع.</p>
+        <hr style="opacity: 0.1; margin: 25px 0;">
+        <p>لديك مشروع خاص؟ تواصل مع مكتبنا الهندسي فوراً:</p>
+        <a href="mailto:has949276@gmail.com?subject=طلب استشارة هندسية&body=مرحباً، أريد حساب كميات لمشروع بمساحة..." class="gmail-btn">
+             إرسال المخطط عبر Gmail 📧
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2026 جميع الحقوق محفوظة | تم التطوير بواسطة "مبرمجو المواقعHa
+    </footer>
+</div>
+
+<script>
+    function calc() {
+        const area = parseFloat(document.getElementById('area').value);
+        const thick = parseFloat(document.getElementById('thick').value);
+        const steelRatio = parseFloat(document.getElementById('s_type').value);
+
+        if(!area || !thick) {
+            alert("⚠️ فضلاً، أدخل المساحة وسمك الصبة أولاً");
+            return;
+        }
+
+        // 1. حساب حجم الخرسانة الصافي + 5% هالك
+        const volume = (area * (thick / 100)) * 1.05;
+
+        // 2. حساب الحديد (كجم لكل متر مكعب)
+        const totalSteel = (volume * steelRatio) / 1000;
+
+        // 3. الأسمنت (بناءً على 7 شكاير للمتر المكعب خرسانة)
+        const totalCement = (volume * 7 * 50) / 1000;
+
+        // 4. الرمل (0.4 من حجم الخرسانة)
+        const totalSand = volume * 0.4;
+
+        // 5. الزلط / السن (0.8 من حجم الخرسانة)
+        const totalGravel = volume * 0.8;
+
+        // 6. حساب الطوب (تقديري للمباني بناءً على المساحة)
+        const totalBricks = area * 85; 
+
+        // عرض النتائج في الصفحة
+        document.getElementById('v').innerText = volume.toFixed(2);
+        document.getElementById('s').innerText = totalSteel.toFixed(3);
+        document.getElementById('c').innerText = totalCement.toFixed(2);
+        document.getElementById('ra').innerText = totalSand.toFixed(2);
+        document.getElementById('z').innerText = totalGravel.toFixed(2);
+        document.getElementById('b').innerText = Math.ceil(totalBricks).toLocaleString();
+
+        document.getElementById('res').style.display = 'grid';
+        
+        // التمرير التلقائي للنتائج
+        window.scrollTo({ top: document.getElementById('res').offsetTop, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
