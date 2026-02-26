@@ -192,62 +192,6 @@
 
 </body>
 </html>
-        @media (min-width: 768px) {
-            .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>🏗️ المنصة الهندسية المتكاملة</h1>
-    <p>دقة في الحساب.. شفافية في المصدر</p>
-</header>
-
-<div class="container">
-    
-    <div class="card">
-        <h2>📦 حاسبة كميات صب السقف</h2>
-        <div class="grid-3">
-            <div class="input-group">
-                <label>مساحة السقف (م²)</label>
-                <input type="number" id="c_area" placeholder="0.00">
-            </div>
-            <div class="input-group">
-                <label>نوع السقف</label>
-                <select id="c_type">
-                    <option value="solid">بلاطة عادية (Solid)</option>
-                    <option value="flat">بلاطة هوردي (Flat)</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>السمك (سم)</label>
-                <input type="number" id="c_thick" placeholder="مثلاً: 15">
-            </div>
-        </div>
-        <button class="btn-calc" onclick="calcConcrete()">احسب الكميات الإنشائية</button>
-        
-        <div class="results-box" id="c_results">
-            <div class="res-item"><b><span id="r_vol">0</span></b><span>خرسانة (م³)</span></div>
-            <div class="res-item"><b><span id="r_steel">0</span></b><span>حديد (طن)</span></div>
-            <div class="res-item"><b><span id="r_cem">0</span></b><span>أسمنت (كيس)</span></div>
-            <div class="res-item"><b><span id="r_sand">0</span></b><span>بطحاء (م³)</span></div>
-            <div class="res-item"><b><span id="r_grav">0</span></b><span>كري (م³)</span></div>
-            <div class="res-item"><b><span id="r_water">0</span></b><span>ماء (لتر)</span></div>
-        </div>
-        
-        <div class="source-box" id="c_source" style="display:none">
-            <strong>💡 من أين تأتي هذه الأرقام؟</strong><br>
-            تأتي كلمة النتائج من معادلة الحجم ($V = A \times T$). نحن نفترض استخدام الخلطة المعيارية (7 أكياس أسمنت لكل متر مكعب) لضمان أقصى قوة إنشائية.
-        </div>
-    </div>
-
-    <div class="card">
-        <h2>🧱 حاسبة طوب المباني</h2>
-        <div class="grid-3">
-            <div class="input-group">
-                <label>إجمالي طول الجدران (م)</label>
-                <input type="number" id="b_len" placeholder="0.00">
             </div>
             <div class="input-group" style="grid-column: span 2;">
                 <label>ارتفاع الجدار (م)</label>
@@ -256,19 +200,10 @@
         </div>
         <button class="btn-calc" onclick="calcBricks()">احسب عدد الطوب</button>
         <div class="results-box" id="b_results">
-            <div class="res-item"><b><span id="r_bricks">0</span></b><span>طوبة (20x40)</span></div>
-            <div class="res-item"><b><span id="r_b_cem">0</span></b><span>أسمنت مونة (كيس)</span></div>
+            <div class="res-item"><span id="r_bricks">0</span><small>طوبة (20x40)</small></div>
+            <div class="res-item"><span id="r_b_cem">0</span><small>أسمنت مونة (كيس)</small></div>
         </div>
     </div>
-
-    <div class="info-section">
-        <h3>🔍 من نحن؟</h3>
-        <p>نحن منصة تهدف لمساعدة الملاك والمقاولين في تقدير تكاليف ومواد البناء قبل البدء، لتقليل الهدر المالي والمواد.</p>
-        <hr>
-        <h3>🛡️ سياسة الخصوصية</h3>
-        <p>خصوصيتك مضمونة 100%. لا يتم إرسال أي بيانات تدخلها إلى خوادمنا؛ كل العمليات الحسابية تتم محلياً وبسرعة فائقة داخل متصفحك.</p>
-    </div>
-
 </div>
 
 <footer>
@@ -277,14 +212,15 @@
 
 <script>
     function calcConcrete() {
-        let a = parseFloat(document.getElementById('c_area').value);
-        let t = parseFloat(document.getElementById('c_thick').value) / 100;
-        let ty = document.getElementById('c_type').value;
+        const a = parseFloat(document.getElementById('c_area').value);
+        const t = parseFloat(document.getElementById('c_thick').value) / 100;
+        const ty = document.getElementById('c_type').value;
 
         if(!a || !t) return alert("يرجى إكمال البيانات أولاً");
 
         let vol = a * t;
-        let steel = vol * (ty === 'solid' ? 90 : 130) / 1000;
+        // نسبة الحديد: Solid = 100kg/m3, Flat = 135kg/m3 (تقريب هندسي آمن)
+        let steel = vol * (ty === 'solid' ? 100 : 135) / 1000;
         let cem = vol * 7;
         let sand = vol * 0.4;
         let grav = vol * 0.8;
@@ -292,139 +228,25 @@
         document.getElementById('c_results').style.display = 'grid';
         document.getElementById('c_source').style.display = 'block';
         
-        document.getElementById('r_vol').innerText = vol.toFixed(2);
-        document.getElementById('r_steel').innerText = steel.toFixed(3);
-        document.getElementById('r_cem').innerText = Math.ceil(cem);
-        document.getElementById('r_sand').innerText = sand.toFixed(2);
-        document.getElementById('r_grav').innerText = grav.toFixed(2);
-        document.getElementById('r_water').innerText = Math.round(vol * 175);
+        document.getElementById('r_vol').textContent = vol.toFixed(2);
+        document.getElementById('r_steel').textContent = steel.toFixed(3);
+        document.getElementById('r_cem').textContent = Math.ceil(cem);
+        document.getElementById('r_sand').textContent = sand.toFixed(2);
+        document.getElementById('r_grav').textContent = grav.toFixed(2);
+        document.getElementById('r_water').textContent = Math.round(vol * 175);
     }
 
     function calcBricks() {
-        let l = parseFloat(document.getElementById('b_len').value);
-        let h = parseFloat(document.getElementById('b_high').value);
+        const l = parseFloat(document.getElementById('b_len').value);
+        const h = parseFloat(document.getElementById('b_high').value);
         if(!l || !h) return alert("يرجى إكمال البيانات");
 
         let area = l * h;
-        let count = area * 12.5; // طوب مقاس 20*40
+        let count = area * 12.5; // للمتر المربع الواحد
         
         document.getElementById('b_results').style.display = 'grid';
-        document.getElementById('r_bricks').innerText = Math.ceil(count);
-        document.getElementById('r_b_cem').innerText = Math.ceil((count/1000) * 10);
-    }
-</script>
-
-</body>
-</html>
-            </div>
-            <div class="input-group">
-                <label>📐 سمك الصبة (سم)</label>
-                <input type="number" id="thick" placeholder="مثال: 20">
-            </div>
-            <div class="input-group">
-                <label>🏗️ نوع النظام الإنشائي</label>
-                <select id="s_type">
-                    <option value="100">سقف عادي (Solid Slab)</option>
-                    <option value="140">سقف فلات (Flat Slab)</option>
-                    <option value="160">هوردي (Hollow Block)</option>
-                </select>
-            </div>
-        </div>
-
-        <button class="btn-main" onclick="calc()">📦 احسب الكميات والتكلفة</button>
-
-        <div id="res" class="results">
-            <div class="res-box">
-                [attachment_0](attachment)
-                <small>حجم الخرسانة</small>
-                <b id="v">0</b> <span>متر مكعب</span>
-            </div>
-            <div class="res-box">
-                
-                <small>وزن الحديد</small>
-                <b id="s">0</b> <span>طن</span>
-            </div>
-            <div class="res-box">
-                [attachment_1](attachment)
-                <small>الأسمنت</small>
-                <b id="c">0</b> <span>طن</span>
-            </div>
-            <div class="res-box">
-                [attachment_2](attachment)
-                <small>الرمل المطلوب</small>
-                <b id="ra">0</b> <span>متر مكعب</span>
-            </div>
-            <div class="res-box">
-                
-                <small>السن / الزلط</small>
-                <b id="z">0</b> <span>متر مكعب</span>
-            </div>
-            <div class="res-box">
-                [attachment_3](attachment)
-                <small>الطوب التقريبي</small>
-                <b id="b">0</b> <span>طوبة</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="ad-banner">مساحة إعلانية ثانية - متجاوبة</div>
-
-    <div class="footer-info">
-        <h3>💡 لماذا حاسبتنا هي الأفضل؟</h3>
-        <p>تعتمد خوارزميتنا على معادلات هندسية دقيقة تأخذ في الاعتبار "نسبة الفاقد" (Waste Factor) بنسبة 5% لضمان عدم توقف العمل في الموقع.</p>
-        <hr style="opacity: 0.1; margin: 25px 0;">
-        <p>لديك مشروع خاص؟ تواصل مع مكتبنا الهندسي فوراً:</p>
-        <a href="mailto:has949276@gmail.com?subject=طلب استشارة هندسية&body=مرحباً، أريد حساب كميات لمشروع بمساحة..." class="gmail-btn">
-             إرسال المخطط عبر Gmail 📧
-        </a>
-    </div>
-
-    <footer>
-        &copy; 2026 جميع الحقوق محفوظة | تم التطوير بواسطة "مبرمجو المواقعHa
-    </footer>
-</div>
-
-<script>
-    function calc() {
-        const area = parseFloat(document.getElementById('area').value);
-        const thick = parseFloat(document.getElementById('thick').value);
-        const steelRatio = parseFloat(document.getElementById('s_type').value);
-
-        if(!area || !thick) {
-            alert("⚠️ فضلاً، أدخل المساحة وسمك الصبة أولاً");
-            return;
-        }
-
-        // 1. حساب حجم الخرسانة الصافي + 5% هالك
-        const volume = (area * (thick / 100)) * 1.05;
-
-        // 2. حساب الحديد (كجم لكل متر مكعب)
-        const totalSteel = (volume * steelRatio) / 1000;
-
-        // 3. الأسمنت (بناءً على 7 شكاير للمتر المكعب خرسانة)
-        const totalCement = (volume * 7 * 50) / 1000;
-
-        // 4. الرمل (0.4 من حجم الخرسانة)
-        const totalSand = volume * 0.4;
-
-        // 5. الزلط / السن (0.8 من حجم الخرسانة)
-        const totalGravel = volume * 0.8;
-
-        // 6. حساب الطوب (تقديري للمباني بناءً على المساحة)
-        const totalBricks = area * 85; 
-
-        // عرض النتائج في الصفحة
-        document.getElementById('v').innerText = volume.toFixed(2);
-        document.getElementById('s').innerText = totalSteel.toFixed(3);
-        document.getElementById('c').innerText = totalCement.toFixed(2);
-        document.getElementById('ra').innerText = totalSand.toFixed(2);
-        document.getElementById('z').innerText = totalGravel.toFixed(2);
-        document.getElementById('b').innerText = Math.ceil(totalBricks).toLocaleString();
-
-        document.getElementById('res').style.display = 'grid';
-        
-        // التمرير التلقائي للنتائج
-        window.scrollTo({ top: document.getElementById('res').offsetTop, behavior: 'smooth' });
+        document.getElementById('r_bricks').textContent = Math.ceil(count);
+        document.getElementById('r_b_cem').textContent = Math.ceil((count/1000) * 12); // زيادة طفيفة للمونة
     }
 </script>
 
