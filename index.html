@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الهندسية المتكاملة | حساب الكميات</title>
+    <title>المنصة الهندسية المتكاملة | حساب كميات الخرسانة والحديد والحديد</title>
+    <meta name="description" content="أدق حاسبة هندسية لحساب كميات صب السقف، الحديد، الأسمنت، وعدد الطوب للمباني. أداة مجانية للمهندسين والمقاولين.">
     
     <style>
         :root {
@@ -14,6 +15,7 @@
             --bg: #f8fafc;
             --white: #ffffff;
             --border: #cbd5e1;
+            --success: #22c55e;
         }
 
         body { 
@@ -36,6 +38,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 25px; margin-bottom: 25px;
             border: 1px solid var(--border);
+            position: relative;
         }
 
         .card h2 { 
@@ -50,16 +53,28 @@
         input, select {
             width: 100%; padding: 12px; border: 2px solid var(--border);
             border-radius: 10px; font-size: 1rem; box-sizing: border-box;
+            transition: 0.3s;
         }
+        
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1); }
 
         .btn-calc {
             width: 100%; padding: 15px; background: var(--primary);
             color: white; border: none; border-radius: 10px;
             font-size: 1.1rem; font-weight: 800; cursor: pointer;
             transition: 0.3s; margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .btn-calc:hover { background: #152b75; }
+        .btn-calc:hover { background: #152b75; transform: translateY(-2px); }
+
+        /* زر التحميل الوهمي لزيادة النقرات */
+        .btn-download {
+            display: none; width: 100%; padding: 12px; background: var(--success);
+            color: white; border: none; border-radius: 10px;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            margin-top: 15px; text-decoration: none; text-align: center;
+        }
 
         .results-box {
             display: none; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -76,6 +91,13 @@
             padding: 15px; margin-top: 15px; font-size: 0.9rem; border-radius: 4px;
         }
 
+        /* مكان مخصص للإعلان */
+        .ad-space {
+            margin: 20px 0; text-align: center; min-height: 90px;
+            background: #f1f5f9; border-radius: 8px; display: flex;
+            align-items: center; justify-content: center; font-size: 0.8rem; color: #94a3b8;
+        }
+
         footer { text-align: center; padding: 40px; color: #64748b; font-size: 0.9rem; }
 
         @media (min-width: 768px) {
@@ -87,10 +109,12 @@
 
 <header>
     <h1>🏗️ المنصة الهندسية المتكاملة</h1>
-    <p>دقة في الحساب.. شفافية في المصدر</p>
+    <p>دقة في الحساب.. احترافية في التنفيذ</p>
 </header>
 
 <div class="container">
+    <div class="ad-space">إعلان مخصص لك</div>
+
     <div class="card">
         <h2>📦 حاسبة كميات صب السقف</h2>
         <div class="grid-3">
@@ -120,9 +144,11 @@
             <div class="res-item"><span id="r_grav">0</span><small>كري (م³)</small></div>
             <div class="res-item"><span id="r_water">0</span><small>ماء (لتر)</small></div>
         </div>
+
+        <a href="https://www.highrevenuegate.com/YOUR_DIRECT_LINK_HERE" target="_blank" class="btn-download" id="btn_dl_1">📥 تحميل جدول الكميات (PDF)</a>
         
         <div class="source-box" id="c_source" style="display:none">
-            <strong>💡 ملاحظة فنية:</strong> تم احتساب نسبة الحديد بناءً على متوسط استهلاك المتر المكعب (90-130 كجم) مع إضافة هامش هالك بسيط.
+            <strong>💡 ملاحظة فنية:</strong> تم احتساب نسبة الحديد بناءً على متوسط استهلاك المتر المكعب مع إضافة هامش هالك.
         </div>
     </div>
 
@@ -143,7 +169,10 @@
             <div class="res-item"><span id="r_bricks">0</span><small>طوبة (20x40)</small></div>
             <div class="res-item"><span id="r_b_cem">0</span><small>أسمنت مونة (كيس)</small></div>
         </div>
+        <a href="https://www.highrevenuegate.com/YOUR_DIRECT_LINK_HERE" target="_blank" class="btn-download" id="btn_dl_2">📥 تحميل تقرير المباني المعتمد</a>
     </div>
+
+    <div class="ad-space">مقترح لك من شركائنا</div>
 </div>
 
 <footer>
@@ -159,7 +188,6 @@
         if(!a || !t) return alert("يرجى إكمال البيانات أولاً");
 
         let vol = a * t;
-        // نسبة الحديد: Solid = 100kg/m3, Flat = 135kg/m3 (تقريب هندسي آمن)
         let steel = vol * (ty === 'solid' ? 100 : 135) / 1000;
         let cem = vol * 7;
         let sand = vol * 0.4;
@@ -167,6 +195,7 @@
 
         document.getElementById('c_results').style.display = 'grid';
         document.getElementById('c_source').style.display = 'block';
+        document.getElementById('btn_dl_1').style.display = 'block'; // إظهار زر التحميل
         
         document.getElementById('r_vol').textContent = vol.toFixed(2);
         document.getElementById('r_steel').textContent = steel.toFixed(3);
@@ -182,14 +211,16 @@
         if(!l || !h) return alert("يرجى إكمال البيانات");
 
         let area = l * h;
-        let count = area * 12.5; // للمتر المربع الواحد
+        let count = area * 12.5; 
         
         document.getElementById('b_results').style.display = 'grid';
+        document.getElementById('btn_dl_2').style.display = 'block'; // إظهار زر التحميل
         document.getElementById('r_bricks').textContent = Math.ceil(count);
-        document.getElementById('r_b_cem').textContent = Math.ceil((count/1000) * 12); // زيادة طفيفة للمونة
+        document.getElementById('r_b_cem').textContent = Math.ceil((count/1000) * 12);
     }
 </script>
+
 <script src="https://pl28824175.effectivegatecpm.com/5e/7d/3a/5e7d3a79b15d5dd7ac7833c1be2f84df.js"></script>
+
 </body>
 </html>
-
