@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الهندسية المتكاملة | حساب كميات الخرسانة والحديد والحديد</title>
-    <meta name="description" content="أدق حاسبة هندسية لحساب كميات صب السقف، الحديد، الأسمنت، وعدد الطوب للمباني. أداة مجانية للمهندسين والمقاولين.">
+    <title>المنصة الهندسية المتكاملة | حساب كميات احترافي</title>
     
     <style>
         :root {
@@ -15,7 +14,7 @@
             --bg: #f8fafc;
             --white: #ffffff;
             --border: #cbd5e1;
-            --success: #22c55e;
+            --success: #059669;
         }
 
         body { 
@@ -38,7 +37,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 25px; margin-bottom: 25px;
             border: 1px solid var(--border);
-            position: relative;
         }
 
         .card h2 { 
@@ -53,27 +51,23 @@
         input, select {
             width: 100%; padding: 12px; border: 2px solid var(--border);
             border-radius: 10px; font-size: 1rem; box-sizing: border-box;
-            transition: 0.3s;
         }
-        
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1); }
 
         .btn-calc {
             width: 100%; padding: 15px; background: var(--primary);
             color: white; border: none; border-radius: 10px;
             font-size: 1.1rem; font-weight: 800; cursor: pointer;
             transition: 0.3s; margin-top: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .btn-calc:hover { background: #152b75; transform: translateY(-2px); }
+        .btn-calc:hover { background: #152b75; }
 
-        /* زر التحميل الوهمي لزيادة النقرات */
-        .btn-download {
+        /* زر النسخ الجديد المحترم */
+        .btn-copy-res {
             display: none; width: 100%; padding: 12px; background: var(--success);
             color: white; border: none; border-radius: 10px;
             font-size: 1rem; font-weight: 700; cursor: pointer;
-            margin-top: 15px; text-decoration: none; text-align: center;
+            margin-top: 15px; text-align: center;
         }
 
         .results-box {
@@ -86,16 +80,10 @@
         .res-item span { display: block; font-size: 1.3rem; color: var(--primary); font-weight: bold; }
         .res-item small { font-size: 0.8rem; color: #64748b; }
 
-        .source-box {
-            background: #fffbeb; border-right: 5px solid var(--accent);
-            padding: 15px; margin-top: 15px; font-size: 0.9rem; border-radius: 4px;
-        }
-
-        /* مكان مخصص للإعلان */
-        .ad-space {
-            margin: 20px 0; text-align: center; min-height: 90px;
-            background: #f1f5f9; border-radius: 8px; display: flex;
-            align-items: center; justify-content: center; font-size: 0.8rem; color: #94a3b8;
+        /* مساحة إعلانية نظيفة */
+        .ad-banner-clean {
+            margin: 20px 0; text-align: center; padding: 10px;
+            background: #f1f5f9; border-radius: 8px; font-size: 0.8rem; color: #94a3b8;
         }
 
         footer { text-align: center; padding: 40px; color: #64748b; font-size: 0.9rem; }
@@ -109,11 +97,12 @@
 
 <header>
     <h1>🏗️ المنصة الهندسية المتكاملة</h1>
-    <p>دقة في الحساب.. احترافية في التنفيذ</p>
+    <p>دقة حسابية وفق المعايير الدولية</p>
 </header>
 
 <div class="container">
-    <div class="ad-space">إعلان مخصص لك</div>
+    
+    <div class="ad-banner-clean">إعلان مقترح</div>
 
     <div class="card">
         <h2>📦 حاسبة كميات صب السقف</h2>
@@ -134,7 +123,7 @@
                 <input type="number" id="c_thick" placeholder="مثلاً: 15">
             </div>
         </div>
-        <button class="btn-calc" onclick="calcConcrete()">احسب الكميات الإنشائية</button>
+        <button class="btn-calc" onclick="calcConcrete()">احسب الكميات</button>
         
         <div class="results-box" id="c_results">
             <div class="res-item"><span id="r_vol">0</span><small>خرسانة (م³)</small></div>
@@ -144,13 +133,11 @@
             <div class="res-item"><span id="r_grav">0</span><small>كري (م³)</small></div>
             <div class="res-item"><span id="r_water">0</span><small>ماء (لتر)</small></div>
         </div>
-
-        <a href="Https://www.effectivegatecpm.com/dnkb6xskw?key=edd4012cc10577068efe749246219165" target="_blank" class="btn-download" id="btn_dl_1">📥 تحميل جدول الكميات (PDF)</a>
         
-        <div class="source-box" id="c_source" style="display:none">
-            <strong>💡 ملاحظة فنية:</strong> تم احتساب نسبة الحديد بناءً على متوسط استهلاك المتر المكعب مع إضافة هامش هالك.
-        </div>
+        <button class="btn-copy-res" id="copy_btn_1" onclick="copyResults('concrete')">📋 نسخ تقرير الكميات</button>
     </div>
+
+    <div class="ad-banner-clean">إعلان ممول</div>
 
     <div class="card">
         <h2>🧱 حاسبة طوب المباني</h2>
@@ -169,10 +156,8 @@
             <div class="res-item"><span id="r_bricks">0</span><small>طوبة (20x40)</small></div>
             <div class="res-item"><span id="r_b_cem">0</span><small>أسمنت مونة (كيس)</small></div>
         </div>
-        <a href="Https://www.effectivegatecpm.com/dnkb6xskw?key=edd4012cc10577068efe749246219165" target="_blank" class="btn-download" id="btn_dl_2">📥 تحميل تقرير المباني المعتمد</a>
+        <button class="btn-copy-res" id="copy_btn_2" onclick="copyResults('bricks')">📋 نسخ النتائج</button>
     </div>
-
-    <div class="ad-space">مقترح لك من شركائنا</div>
 </div>
 
 <footer>
@@ -194,8 +179,7 @@
         let grav = vol * 0.8;
 
         document.getElementById('c_results').style.display = 'grid';
-        document.getElementById('c_source').style.display = 'block';
-        document.getElementById('btn_dl_1').style.display = 'block'; // إظهار زر التحميل
+        document.getElementById('copy_btn_1').style.display = 'block';
         
         document.getElementById('r_vol').textContent = vol.toFixed(2);
         document.getElementById('r_steel').textContent = steel.toFixed(3);
@@ -214,9 +198,20 @@
         let count = area * 12.5; 
         
         document.getElementById('b_results').style.display = 'grid';
-        document.getElementById('btn_dl_2').style.display = 'block'; // إظهار زر التحميل
+        document.getElementById('copy_btn_2').style.display = 'block';
         document.getElementById('r_bricks').textContent = Math.ceil(count);
         document.getElementById('r_b_cem').textContent = Math.ceil((count/1000) * 12);
+    }
+
+    function copyResults(type) {
+        let text = "";
+        if(type === 'concrete') {
+            text = `تقرير خرسانة: مساحة ${document.getElementById('c_area').value}م٢، خرسانة: ${document.getElementById('r_vol').textContent}م٣، حديد: ${document.getElementById('r_steel').textContent} طن.`;
+        } else {
+            text = `تقرير مباني: طوب: ${document.getElementById('r_bricks').textContent} حبة، أسمنت: ${document.getElementById('r_b_cem').textContent} كيس.`;
+        }
+        navigator.clipboard.writeText(text);
+        alert("تم نسخ النتائج بنجاح!");
     }
 </script>
 
